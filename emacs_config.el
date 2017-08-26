@@ -17,15 +17,11 @@
 
 (setq use-package-always-ensure t)
 
-;; Packages
-
 ;;;; Git
 
 (use-package magit
   :bind (("C-x g" . magit-status)
-	 ("C-x M-g" . magit-dispatch-popup))
-
-  )
+	 ("C-x M-g" . magit-dispatch-popup)))
 
 ;;;; Syntax
 
@@ -35,7 +31,7 @@
   :config
   (global-nlinum-mode))
 
-;;;; Rust Development
+;;;; Rust
 
 (use-package rust-mode
   :bind (("C-c TAB" . rust-format-buffer)))
