@@ -21,7 +21,7 @@
 
 (use-package magit
   :bind (("C-x g" . magit-status)
-	 ("C-x M-g" . magit-dispatch-popup)))
+         ("C-x M-g" . magit-dispatch-popup)))
 
 ;;;; Syntax
 
@@ -52,16 +52,15 @@
 ;;;; Python
 
 (use-package elpy
-  :config (elpy-enable)
-  :init
+  :config
   (setq elpy-rpc-timeout 10)
   (setq elpy-django-server-ipaddr "127.0.0.1")
-  (setq elpy-django-server-port 5555))
+  (setq elpy-django-server-port 5555)
+  (elpy-enable))
 (use-package py-autopep8
   :bind
-  (("C-c C-a" . python-auto-format))
+  (("C-c C-a" . py-autopep8))
   :config
-  (add-hook 'before-save-hook 'py-autopep8)
   (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
   (setq py-autopep8-options '("--max-line-length=200")))
 
@@ -71,11 +70,11 @@
 
 (use-package haskell-mode
   :bind (("C-c C-l" . haskell-process-load-or-reload)
-	 ("C-c C-z" . haskell-interactive-switch)
-	 ("C-c C-n C-t" . haskell-process-do-type)
-	 ("C-c C-n C-i" . haskell-process-do-info)
-	 ("C-c C-n C-c" . haskell-process-cabal-build)
-	 ("C-c C-n c" . haskell-process-cabal))
+         ("C-c C-z" . haskell-interactive-switch)
+         ("C-c C-n C-t" . haskell-process-do-type)
+         ("C-c C-n C-i" . haskell-process-do-info)
+         ("C-c C-n C-c" . haskell-process-cabal-build)
+         ("C-c C-n c" . haskell-process-cabal))
   :config
   (custom-set-variables
    '(haskell-indentation-where-post-offset 1)
@@ -83,7 +82,7 @@
    '(haskell-process-prompt-restart-on-cabal-change nil)
    '(haskell-process-suggest-remove-import-lines nil)
    '(haskell-stylish-on-save t)
-    '(haskell-tags-on-save t)))
+   '(haskell-tags-on-save t)))
 
 (use-package intero
   :config
