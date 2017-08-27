@@ -51,21 +51,6 @@
 
 ;;;; Python
 
-(defcustom python-autopep8-path (executable-find "autopep8")
-  "autopep8 executable path."
-  :group 'python
-    :type 'string)
-
-(defun python-autopep8 ()
-    "Automatically formats Python code to conform to the PEP 8 style guide.
-$ autopep8 --in-place --aggressive --aggressive <filename>"
-    (interactive)
-    (when (eq major-mode 'python-mode)
-      (shell-command
-       (format "%s --in-place --aggressive %s" python-autopep8-path
-	       (shell-quote-argument (buffer-file-name))))
-          (revert-buffer t t t)))
-
 (use-package elpy
   :config (elpy-enable)
   :init
@@ -76,10 +61,9 @@ $ autopep8 --in-place --aggressive --aggressive <filename>"
   :bind
   (("C-c C-a" . python-auto-format))
   :config
+  (add-hook 'before-save-hook 'py-autopep8)
   (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
-  (setq py-autopep8-options '("--max-line-length=200"))
-  :init
-  (add-hook 'before-save-hook 'python-autopep8))
+  (setq py-autopep8-options '("--max-line-length=200")))
 
 ;;;; Haskell
 
