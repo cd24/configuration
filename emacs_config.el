@@ -51,12 +51,35 @@
 
 ;;;; Python
 
+(defcustom python-autopep8-path (executable-find "autopep8")
+  "autopep8 executable path."
+  :group 'python
+    :type 'string)
+
+(defun python-autopep8 ()
+    "Automatically formats Python code to conform to the PEP 8 style guide.
+$ autopep8 --in-place --aggressive --aggressive <filename>"
+    (interactive)
+    (when (eq major-mode 'python-mode)
+      (shell-command
+       (format "%s --in-place --aggressive %s" python-autopep8-path
+	       (shell-quote-argument (buffer-file-name))))
+          (revert-buffer t t t)))
+
 (use-package elpy
-	     :config (elpy-enable)
-         :init
-	     (setq elpy-rpc-timeout 10)
-	     (setq elpy-django-server-ipaddr "127.0.0.1")
-	     (setq elpy-django-server-port 5555))
+  :config (elpy-enable)
+  :init
+  (setq elpy-rpc-timeout 10)
+  (setq elpy-django-server-ipaddr "127.0.0.1")
+  (setq elpy-django-server-port 5555))
+(use-package py-autopep8
+  :bind
+  (("C-c C-a" . python-auto-format))
+  :config
+  (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
+  (setq py-autopep8-options '("--max-line-length=200"))
+  :init
+  (add-hook 'before-save-hook 'python-autopep8))
 
 ;;;; Haskell
 
@@ -68,7 +91,15 @@
 	 ("C-c C-n C-t" . haskell-process-do-type)
 	 ("C-c C-n C-i" . haskell-process-do-info)
 	 ("C-c C-n C-c" . haskell-process-cabal-build)
-	 ("C-c C-n c" . haskell-process-cabal)))
+	 ("C-c C-n c" . haskell-process-cabal))
+  :config
+  (custom-set-variables
+   '(haskell-indentation-where-post-offset 1)
+   '(haskell-interactive-mode-hide-multi-line-errors nil)
+   '(haskell-process-prompt-restart-on-cabal-change nil)
+   '(haskell-process-suggest-remove-import-lines nil)
+   '(haskell-stylish-on-save t)
+    '(haskell-tags-on-save t)))
 
 (use-package intero
   :config
