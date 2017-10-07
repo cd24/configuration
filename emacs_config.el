@@ -1,9 +1,9 @@
 (require 'package)
 (setq package-archives
-      '(("elpy" . "https://jorgenschaefer.github.io/packages/")
-        ("melpa" . "https://melpa.org/packages/")
-        ("org" . "http://orgmode.org/elpa/")
-        ("gnu" . "https://elpa.gnu.org/packages/")))
+  '(("elpy" . "https://jorgenschaefer.github.io/packages/")
+    ("melpa" . "https://melpa.org/packages/")
+    ("org" . "http://orgmode.org/elpa/")
+    ("gnu" . "https://elpa.gnu.org/packages/")))
 (package-initialize)
 
 (unless (package-installed-p 'use-package)
@@ -31,6 +31,16 @@
   :config
   (global-nlinum-mode))
 
+;;;; Environment
+
+(use-package helm
+  :config
+  (global-set-key (kbd "M-x") #'helm-M-x)
+  (global-set-key (kbd "C-x r b") #'helm-filtered-bookmarks)
+  (global-set-key (kbd "C-x C-f") #'helm-find-files)
+  :init
+  (helm-mode 1))
+
 ;;;; Rust
 
 (use-package rust-mode
@@ -56,6 +66,7 @@
   (setq elpy-rpc-timeout 10)
   (setq elpy-django-server-ipaddr "127.0.0.1")
   (setq elpy-django-server-port 5555)
+  :init
   (elpy-enable))
 (use-package py-autopep8
   :bind
